@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from calculator import add, subtract, multiply, divide, percentage
+from calculator import add, subtract, multiply, divide, percentage, square_root
 
 
 def test_add():
@@ -25,6 +25,13 @@ def test_divide():
 def test_percentage_rejects_negative():
     try:
         percentage(200, -10)
+        assert False
+    except ValueError:
+        assert True
+
+def test_square_root_rejects_negative():
+    try:
+        square_root(-25)
         assert False
     except ValueError:
         assert True

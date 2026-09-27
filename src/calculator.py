@@ -31,3 +31,10 @@ def percentage(value, percent):
         raise ValueError("Percentage cannot be negative")
 
     return value * percent / 100
+
+def square_root(value):
+    """Return the square root of a number."""
+    if value < 0:
+        raise ValueError("Cannot calculate square root of a negative number")
+
+    return value ** 0.5
