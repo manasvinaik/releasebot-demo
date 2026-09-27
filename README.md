@@ -9,6 +9,7 @@ and changelog generation using GitHub Actions.
 - Subtraction
 - Multiplication
 - Division
+- Percentage
 
 ## Running the project
 
