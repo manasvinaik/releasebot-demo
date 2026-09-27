@@ -24,3 +24,7 @@ def divide(a, b):
         raise ValueError("Cannot divide by zero")
 
     return a / b
+
+def percentage(value, percent):
+    """Return a percentage of a value."""
+    return value * percent / 100
