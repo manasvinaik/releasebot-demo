@@ -62,3 +62,6 @@ Desktop.ini
 *.temp
 *.swp
 *.swo
+
+# Temporary release notes
+RELEASE_NOTES.md

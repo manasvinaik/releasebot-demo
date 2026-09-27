@@ -1,15 +1,18 @@
 import subprocess
 import re
-import sys
 from pathlib import Path
+import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
 CHANGELOG_FILE = ROOT / "CHANGELOG.md"
+RELEASE_NOTES_FILE = ROOT / "RELEASE_NOTES.md"
 
 
 def run_git_command(command):
     """Run a Git command and return its output."""
+
     result = subprocess.run(
         command,
         cwd=ROOT,
@@ -23,10 +26,12 @@ def run_git_command(command):
 
 def get_last_tag():
     """Return the most recent Git tag."""
+
     try:
         return run_git_command(
             ["git", "describe", "--tags", "--abbrev=0"]
         )
+
     except subprocess.CalledProcessError:
         return None
 
@@ -43,6 +48,7 @@ def get_commits_since_last_tag():
             f"{last_tag}..HEAD",
             "--pretty=format:%s"
         ]
+
     else:
         command = [
             "git",
@@ -74,10 +80,19 @@ def categorize_commits(commits):
         "Maintenance": []
     }
 
+    category_map = {
+        "feat": "Features",
+        "fix": "Bug Fixes",
+        "docs": "Documentation",
+        "test": "Tests",
+        "refactor": "Refactoring",
+        "chore": "Maintenance"
+    }
+
     for commit in commits:
 
         match = re.match(
-            r"^(feat|fix|docs|test|refactor|chore):\s*(.+)",
+            r"^(feat|fix|docs|test|refactor|chore)(\(.+\))?:\s*(.+)",
             commit
         )
 
@@ -85,16 +100,7 @@ def categorize_commits(commits):
             continue
 
         commit_type = match.group(1)
-        message = match.group(2)
-
-        category_map = {
-            "feat": "Features",
-            "fix": "Bug Fixes",
-            "docs": "Documentation",
-            "test": "Tests",
-            "refactor": "Refactoring",
-            "chore": "Maintenance"
-        }
+        message = match.group(3)
 
         category = category_map[commit_type]
 
@@ -104,7 +110,7 @@ def categorize_commits(commits):
 
 
 def generate_section(version, categories):
-    """Generate a Markdown section for the new release."""
+    """Generate the changelog section for the new release."""
 
     lines = [
         f"## [{version}]",
@@ -124,13 +130,15 @@ def generate_section(version, categories):
 
         lines.append("")
 
-    return "\n".join(lines)
+    return "\n".join(lines).strip()
 
 
 def update_changelog(new_section):
     """Insert the new release at the top of CHANGELOG.md."""
 
-    existing = CHANGELOG_FILE.read_text(encoding="utf-8")
+    existing = CHANGELOG_FILE.read_text(
+        encoding="utf-8"
+    )
 
     marker = (
         "All notable changes to this project "
@@ -149,7 +157,7 @@ def update_changelog(new_section):
         + marker
         + "\n\n"
         + new_section
-        + "\n"
+        + "\n\n"
         + parts[1].lstrip()
     )
 
@@ -162,16 +170,21 @@ def update_changelog(new_section):
 def main():
 
     if len(sys.argv) != 2:
-        print("Usage: python scripts/generate_changelog.py VERSION")
-        return
+
+        print(
+            "Usage: python scripts/generate_changelog.py VERSION"
+        )
+
+        sys.exit(1)
 
     version = sys.argv[1]
 
     commits = get_commits_since_last_tag()
 
     if not commits:
+
         print("No new commits found.")
-        return
+        sys.exit(1)
 
     categories = categorize_commits(commits)
 
@@ -182,7 +195,13 @@ def main():
 
     update_changelog(new_section)
 
+    RELEASE_NOTES_FILE.write_text(
+        new_section + "\n",
+        encoding="utf-8"
+    )
+
     print("CHANGELOG.md updated successfully.")
+    print("RELEASE_NOTES.md created successfully.")
 
 
 if __name__ == "__main__":
