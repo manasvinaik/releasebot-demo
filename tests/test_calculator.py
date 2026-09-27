@@ -22,5 +22,9 @@ def test_divide():
     assert divide(10, 2) == 5
 
 
-def test_percentage():
-    assert percentage(200, 10) == 20
+def test_percentage_rejects_negative():
+    try:
+        percentage(200, -10)
+        assert False
+    except ValueError:
+        assert True

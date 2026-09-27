@@ -27,4 +27,7 @@ def divide(a, b):
 
 def percentage(value, percent):
     """Return a percentage of a value."""
+    if percent < 0:
+        raise ValueError("Percentage cannot be negative")
+
     return value * percent / 100
