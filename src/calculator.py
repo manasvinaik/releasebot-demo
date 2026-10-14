@@ -38,3 +38,7 @@ def square_root(value):
         raise ValueError("Cannot calculate square root of a negative number")
 
     return value ** 0.5
+
+def cube(value):
+    """Return the cube of a number."""
+    return value ** 3
