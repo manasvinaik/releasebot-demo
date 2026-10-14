@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from calculator import add, subtract, multiply, divide, percentage, square_root, cube, power, factorial
+from calculator import add, subtract, multiply, divide, percentage, square_root, cube, power, factorial, discount
 
 
 def test_add():
@@ -59,6 +59,34 @@ def test_factorial_rejects_negative():
 def test_factorial_rejects_decimal():
     try:
         factorial(3.5)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+def test_discount():
+    assert discount(1000, 20) == 800
+    assert discount(500, 10) == 450
+    assert discount(100, 100) == 0
+
+
+def test_discount_rejects_negative_price():
+    try:
+        discount(-100, 10)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+def test_discount_rejects_invalid_percentage():
+    try:
+        discount(100, 120)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+def test_discount_rejects_invalid_percentage():
+    try:
+        discount(100, 120)
         assert False, "Expected ValueError"
     except ValueError:
         pass

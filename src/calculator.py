@@ -61,3 +61,13 @@ def factorial(n):
         result *= number
 
     return result
+
+def discount(price, percentage):
+        """Calculate the price after applying a discount."""
+        if price < 0:
+            raise ValueError("Price cannot be negative")
+
+        if not 0 <= percentage <= 100:
+            raise ValueError("Discount must be between 0 and 100")
+
+        return price * (1 - percentage / 100)
