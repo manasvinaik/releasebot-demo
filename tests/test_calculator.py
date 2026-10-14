@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from calculator import add, subtract, multiply, divide, percentage, square_root, cube
+from calculator import add, subtract, multiply, divide, percentage, square_root, cube, power
 
 
 def test_add():
@@ -38,3 +38,7 @@ def test_square_root_rejects_negative():
 
 def test_cube():
     assert cube(3) == 27
+
+def test_power():
+    assert power(2, 3) == 8
+    assert power(5, 2) == 25

@@ -42,3 +42,7 @@ def square_root(value):
 def cube(value):
     """Return the cube of a number."""
     return value ** 3
+
+def power(base, exponent):
+    """Raise a number to the given exponent."""
+    return base ** exponent
