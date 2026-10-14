@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1]
+
+### Maintenance
+
+- stop tracking Python cache files
+
 ## [1.3.0]
 
 ### Features
