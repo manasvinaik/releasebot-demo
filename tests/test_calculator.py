@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from calculator import add, subtract, multiply, divide, percentage, square_root, cube, power
+from calculator import add, subtract, multiply, divide, percentage, square_root, cube, power, factorial
 
 
 def test_add():
@@ -42,3 +42,23 @@ def test_cube():
 def test_power():
     assert power(2, 3) == 8
     assert power(5, 2) == 25
+def test_factorial():
+    assert factorial(5) == 120
+    assert factorial(0) == 1
+    assert factorial(1) == 1
+
+
+def test_factorial_rejects_negative():
+    try:
+        factorial(-5)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+def test_factorial_rejects_decimal():
+    try:
+        factorial(3.5)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass

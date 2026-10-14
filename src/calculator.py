@@ -46,3 +46,18 @@ def cube(value):
 def power(base, exponent):
     """Raise a number to the given exponent."""
     return base ** exponent
+
+def factorial(n):
+    """Return the factorial of a non-negative integer."""
+    if not isinstance(n, int) or isinstance(n, bool):
+        raise ValueError("Input must be an integer")
+
+    if n < 0:
+        raise ValueError("Input cannot be negative")
+
+    result = 1
+
+    for number in range(2, n + 1):
+        result *= number
+
+    return result
